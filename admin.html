@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Portfolio Management</title>
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h2>🔐 Admin Login</h2>
+                <p>Access your portfolio dashboard</p>
+            </div>
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label for="admin-username">Username</label>
+                    <input type="text" id="admin-username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <div class="login-hint">
+                    <small>Default: admin / admin123</small>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-dashboard" id="admin-dashboard" style="display: none;">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <h1>📊 Portfolio Admin</h1>
+                <span class="admin-user">Welcome, Admin</span>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-secondary" id="view-site-btn">👁️ View Site</button>
+                <button class="btn btn-danger" id="logout-btn">🚪 Logout</button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="admin-nav">
+            <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
+            <button class="nav-btn" data-section="meetings">📅 Meetings</button>
+            <button class="nav-btn" data-section="projects">💼 Projects</button>
+            <button class="nav-btn" data-section="content">📝 Content</button>
+            <button class="nav-btn" data-section="settings">⚙️ Settings</button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <section class="admin-section active" id="dashboard-section">
+                <div class="section-header">
+                    <h2>Dashboard Overview</h2>
+                    <p>Quick stats and recent activity</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-content">
+                            <h3 id="total-meetings-stat">0</h3>
+                            <p>Total Meetings</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏰</div>
+                        <div class="stat-content">
+                            <h3 id="upcoming-meetings-stat">0</h3>
+                            <p>Upcoming Meetings</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💼</div>
+                        <div class="stat-content">
+                            <h3 id="total-projects-stat">3</h3>
+                            <p>Portfolio Projects</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💬</div>
+                        <div class="stat-content">
+                            <h3 id="total-messages-stat">0</h3>
+                            <p>Contact Messages</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list" id="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">🎉</div>
+                            <div class="activity-content">
+                                <p><strong>Admin Dashboard Created</strong></p>
+                                <small>Just now</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Meetings Section -->
+            <section class="admin-section" id="meetings-section">
+                <div class="section-header">
+                    <h2>Meeting Management</h2>
+                    <p>View and manage scheduled meetings</p>
+                </div>
+
+                <div class="meetings-controls">
+                    <div class="filter-group">
+                        <select id="meetings-admin-filter">
+                            <option value="all">All Meetings</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="today">Today</option>
+                            <option value="past">Past</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-danger" id="clear-all-meetings">🗑️ Clear All</button>
+                </div>
+
+                <div class="meetings-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Email</th>
+                                <th>Date & Time</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="meetings-table-body">
+                            <tr class="no-data">
+                                <td colspan="6">No meetings scheduled</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section class="admin-section" id="projects-section">
+                <div class="section-header">
+                    <h2>Project Management</h2>
+                    <p>Manage your portfolio projects</p>
+                </div>
+
+                <div class="projects-controls">
+                    <button class="btn btn-primary" id="add-project-btn">➕ Add Project</button>
+                </div>
+
+                <div class="projects-grid" id="projects-admin-grid">
+                    <!-- Projects will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Content Section -->
+            <section class="admin-section" id="content-section">
+                <div class="section-header">
+                    <h2>Content Management</h2>
+                    <p>Update your personal information and content</p>
+                </div>
+
+                <div class="content-forms">
+                    <div class="content-card">
+                        <h3>Personal Information</h3>
+                        <form id="personal-info-form">
+                            <div class="form-group">
+                                <label for="admin-name">Full Name</label>
+                                <input type="text" id="admin-name" value="Mebit Dereje">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-title">Professional Title</label>
+                                <input type="text" id="admin-title" value="Web Developer, UI Designer, Problem Solver">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-bio">Bio Description</label>
+                                <textarea id="admin-bio" rows="4">Passionate about creating beautiful, functional, and user-centered digital experiences.</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                        </form>
+                    </div>
+
+                    <div class="content-card">
+                        <h3>Contact Information</h3>
+                        <form id="contact-info-form">
+                            <div class="form-group">
+                                <label for="admin-email">Email</label>
+                                <input type="email" id="admin-email" value="mebit.dereje@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-phone">Phone</label>
+                                <input type="tel" id="admin-phone" value="+251917516532">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-location">Location</label>
+                                <input type="text" id="admin-location" value="Your City, Country">
+                            </div>
+                            <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section class="admin-section" id="settings-section">
+                <div class="section-header">
+                    <h2>Settings</h2>
+                    <p>Configure your portfolio settings</p>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>🎨 Appearance</h3>
+                        <div class="setting-item">
+                            <label for="default-theme">Default Theme</label>
+                            <select id="default-theme">
+                                <option value="dark">Dark Mode</option>
+                                <option value="light">Light Mode</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="enable-animations">Enable Animations</label>
+                            <input type="checkbox" id="enable-animations" checked>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>📅 Meeting Settings</h3>
+                        <div class="setting-item">
+                            <label for="meeting-duration">Default Meeting Duration</label>
+                            <select id="meeting-duration">
+                                <option value="30">30 minutes</option>
+                                <option value="45">45 minutes</option>
+                                <option value="60">60 minutes</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="auto-confirm">Auto-confirm meetings</label>
+                            <input type="checkbox" id="auto-confirm">
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>🔒 Security</h3>
+                        <div class="setting-item">
+                            <button class="btn btn-secondary" id="change-password-btn">🔑 Change Password</button>
+                        </div>
+                        <div class="setting-item">
+                            <button class="btn btn-danger" id="clear-all-data-btn">🗑️ Clear All Data</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="project-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="project-modal-title">Add New Project</h3>
+                <button class="modal-close" id="project-modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="project-form">
+                    <div class="form-group">
+                        <label for="project-title">Project Title</label>
+                        <input type="text" id="project-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-description">Description</label>
+                        <textarea id="project-description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-image">Image URL</label>
+                        <input type="url" id="project-image" placeholder="https://example.com/image.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label for="project-link">Project Link</label>
+                        <input type="url" id="project-link" placeholder="https://example.com">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="project-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Project</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>
